@@ -9,5 +9,7 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@main
-    - name: Lint Terraform
-      uses: actionshub/terraform-lint@main
+    - name: Terraform lint
+      uses: devops-infra/action-tflint@master
+      with:
+        dir_filter: modules

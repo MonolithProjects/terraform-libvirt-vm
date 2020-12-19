@@ -1,6 +1,6 @@
 # Libvirt VM Terraform module
 
-[![GitHub Actions](https://github.com/MonolithProjects/terraform-libvirt-vm/workflows/lint/badge.svg?branch=master)](https://github.com/MonolithProjects/terraform-libvirt-vm/actions)
+[![GitHub Actions](https://github.com/MonolithProjects/terraform-libvirt-vm/workflows/Lint/badge.svg)](https://github.com/MonolithProjects/terraform-libvirt-vm/actions)
 [![License](https://img.shields.io/github/license/MonolithProjects/terraform-libvirt-vm)](https://github.com/MonolithProjects/terraform-libvirt-vm/blob/master/LICENSE)
 
 Terraform module for KVM/Libvirt Virtual Machine. This module will create a libvirt domain, storage pool, system volume and configure the VM using cloud_init. This module is using [dmacvicar/libvirt](https://github.com/dmacvicar/terraform-provider-libvirt) Terraform provider.
