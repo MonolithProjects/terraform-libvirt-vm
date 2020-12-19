@@ -11,5 +11,3 @@ jobs:
       uses: actions/checkout@main
     - name: Terraform lint
       uses: devops-infra/action-tflint@master
-      with:
-        dir_filter: modules
