@@ -63,7 +63,7 @@ module "nodes" {
   vm_count    = 3
   memory      = "2048"
   vcpu        = 1
-  pool        = terra_pool
+  pool        = "terra_pool"
   system_volume = 20
 
   dhcp        = true
@@ -108,7 +108,7 @@ module "nodes" {
   vm_count    = 3
   memory      = "2048"
   vcpu        = 1
-  pool        = terra_pool
+  pool        = "terra_pool"
   system_volume = 20
 
   dhcp        = false
