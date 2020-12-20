@@ -5,8 +5,6 @@
 
 Terraform module for KVM/Libvirt Virtual Machine. This module will create a libvirt domain, storage pool, system volume and configure the VM using cloud_init. This module is using [dmacvicar/libvirt](https://github.com/dmacvicar/terraform-provider-libvirt) Terraform provider.
 
-> :warning: Module is not 100% universal and not all parameters are parametrized (yet). For example you may need to change bridge settings or cloud init.
-
 ## What the module provides
 
 - create one or more libvirt domains
