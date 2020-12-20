@@ -49,10 +49,6 @@ terraform {
     }
 }
 
-terraform {
-  required_version = ">= 0.13"
-}
-
 provider "libvirt" {
   uri = "qemu+ssh://hero@192.168.165.100/system"
 }
