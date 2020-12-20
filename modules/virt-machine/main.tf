@@ -12,7 +12,7 @@ terraform {
 
 resource "libvirt_domain" "virt-machine" {
   count  = var.vm_count
-  name   = format("${var.vm_hostname_prefix}_%02d", count.index + 1)
+  name   = format("${var.vm_hostname_prefix}%02d", count.index + 1)
   memory = var.memory
   vcpu   = var.vcpu
   
@@ -21,7 +21,7 @@ resource "libvirt_domain" "virt-machine" {
   network_interface {
     bridge         = "br0"
     wait_for_lease = false
-    hostname       = format("${var.vm_hostname_prefix}_%02d", count.index + 1)
+    hostname       = format("${var.vm_hostname_prefix}%02d", count.index + 1)
   }
 
   console {
@@ -55,7 +55,7 @@ resource "libvirt_domain" "virt-machine" {
 
     connection {
       type                = "ssh"
-      user                = var.ssh_username
+      user                = var.ssh_admin
       host                = var.ip_address[0]
       private_key         = file(var.ssh_private_key)
       timeout             = "2m"

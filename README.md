@@ -24,12 +24,17 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a libv
 |vm_hostname_prefix|VM hostname prefix|vm
 |memory|RAM in MB|512
 |vcpu|Number of vCPUs|1
+|system_volume|System Volume size (GB)|10
 |dhcp|Use DHCP or Static IP settings|false
 |ip_address|"List of IP addresses|[ "192.168.123.1" ]
+|ip_nameserver|IP addresses of a nameserver|192.168.123.1
+|ip_gateway|IP addresses of a gateway|192.168.123.1
+|ssh_admin|Admin user with ssh access|ssh-admin
 |ssh_keys|List of public ssh keys| []
-|admin_passwd|Admin user password|password_example
-|ssh_username|User for SSH test|ssh-bot"
-|ssh_private_key|Private key for SSH test|~/.ssh/deployer_keys/id_ed25519
+|local_admin|Admin user without ssh access|local-admin
+|local_admin_passwd|Local admin user password|password_example
+|time_zone|Time Zone|UTC
+|ssh_private_key|Private key for SSH connection test|~/.ssh/deployer_keys/id_ed25519
 
 **Cloud_init** configuration can be found in `modules/virt-machine/templates`.
 
@@ -51,23 +56,33 @@ terraform {
 }
 
 provider "libvirt" {
-  uri = "qemu+ssh://hero@192.168.123.100/system"
+  uri = "qemu+ssh://hero@192.168.165.100/system"
 }
 
-module "k3s_nodes" {
+module "nodes" {
   source      = "./modules/virt-machine"
+  vm_hostname_prefix = "server"
   vm_count    = 3
   memory      = "2048"
   vcpu        = 1
+  system_volume = 20
   dhcp        = false
-  os_img_url  = "file:///home/myuser/ubuntu-20.04-server-cloudimg-amd64.img"
   ip_address  = [ 
-                  "192.168.123.101",
-                  "192.168.123.102",
-                  "192.168.123.103" 
+                  "192.168.165.151",
+                  "192.168.165.152",
+                  "192.168.165.153" 
                 ]
-  admin_passwd = "$6$rounds=4-XXXXXXXXXXXXXXXXX-HASHED-PASSWORD"
-  ssh_keys    = [ "ssh-ed25519 XXXXXXXXXXXXXXXXX example", ]
+  ip_gateway  = "192.168.165.254"
+  ip_nameserver = "192.168.165.104"
+  local_admin = "local-admin"
+  ssh_admin   = "ci-user"
+  ssh_private_key = "~/.ssh/id_ed25519"
+  local_admin_passwd = "$6$rounds=4096$xxxxxxxxHASHEDxxxPASSWORD"
+  ssh_keys    = [ 
+    "ssh-ed25519 AAAAxxxxxxxxxxxxSSHxxxKEY example", 
+    ]
+  time_zone   = "CET"
+  os_img_url  = "file:///home/myuser/ubuntu-20.04-server-cloudimg-amd64.img"
 }
 
 ```

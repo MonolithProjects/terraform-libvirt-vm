@@ -1,11 +1,7 @@
-#### Storage ####
-
 variable "libvirt_disk_path" {
   description = "Path to libvirt Disk pool"
   default     = "/mnt/terra"
 }
-
-#### Virtual Machine ####
 
 variable "os_img_url" {
   description = "URL to the OS image"
@@ -36,8 +32,12 @@ variable "memory" {
 
 variable "vcpu" {
   description = "Number of vCPUs"
-  type = string
   default = 1
+}
+
+variable "system_volume" {
+  description = "System Volume size (GB)"
+  default = 10
 }
 
 variable "dhcp" {
@@ -52,25 +52,43 @@ variable "ip_address" {
   default     = [ "192.168.123.1" ]
 }
 
+variable "ip_nameserver" {
+  description = "IP addresses of a nameserver"
+  default     = "192.168.123.1"
+}
+
+variable "ip_gateway" {
+  description = "IP addresses of a gateway"
+  default     = "192.168.123.1"
+}
+
+variable "ssh_admin" {
+  description = "Admin user with ssh access"
+  default = "ssh-admin"
+}
+
 variable "ssh_keys" {
   description = "List of public ssh keys"
   type        = list(string)
   default     = []
 }
 
-variable "admin_passwd" {
-  description = "Admin user password"
+variable "local_admin" {
+  description = "Admin user without ssh access"
+  default     = "local-admin"
+}
+
+variable "local_admin_passwd" {
+  description = "Local admin user password"
   default     = "password_example"
 }
 
-#### Connection test (Optional) ###
-
-variable "ssh_username" {
-  description = "User for SSH test"
-  default     = "ssh-user"
+variable "time_zone" {
+  description = "Time Zone"
+  default     = "UTC"
 }
 
 variable "ssh_private_key" {
-  description = "Private key for SSH test"
+  description = "Private key for SSH connection test"
   default     = "~/.ssh/id_ed25519"
 }

@@ -9,18 +9,18 @@ packages:
 fqdn: ${hostname}
 
 users:
-  - name: ssh-bot
+  - name: ${ssh_admin}
     gecos: CI User
     lock-passwd: false
     sudo: ALL=(ALL) NOPASSWD:ALL
     system: False
     ssh_authorized_keys: ${ssh_keys}
     shell: /bin/bash
-  - name: localadmin
+  - name: ${local_admin}
     gecos: Local admin (no SSH)
     lock-passwd: false
     sudo: ALL=(ALL) ALL
-    passwd: ${admin_passwd}
+    passwd: ${local_admin_passwd}
     shell: /bin/bash
 
 write_files:
@@ -55,8 +55,7 @@ write_files:
          AcceptEnv LANG LC_*
          Subsystem sftp /usr/lib/openssh/sftp-server
          UsePAM yes
-         AllowUsers ssh-bot
-         DenyUsers localadmin
+         AllowUsers ${ssh_admin}
 
 growpart:
     mode: auto
@@ -65,5 +64,5 @@ growpart:
 
 resize_rootfs: true
 
-timezone: CET
+timezone: ${time_zone}
 

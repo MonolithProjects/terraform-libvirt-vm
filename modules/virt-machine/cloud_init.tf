@@ -3,6 +3,8 @@ data "template_file" "network_config" {
   template = file("${path.module}/templates/network_config_${var.dhcp == true ? "dhcp" : "static"}.tpl")
   vars = {
     ip_address = element(var.ip_address, count.index)
+    ip_gateway = var.ip_gateway
+    ip_nameserver = var.ip_nameserver
   }
 }
 
@@ -10,9 +12,12 @@ data "template_file" "init_config" {
   count = var.vm_count
   template = file("${path.module}/templates/cloud_init.tpl")
   vars = {
+    ssh_admin = var.ssh_admin
     ssh_keys = local.all_keys
-    admin_passwd = var.admin_passwd
-    hostname = format("${var.vm_hostname_prefix}_%02d", count.index + 1)
+    local_admin = var.local_admin
+    local_admin_passwd = var.local_admin_passwd
+    hostname = format("${var.vm_hostname_prefix}%02d", count.index + 1)
+    time_zone = var.time_zone
   }
 }
 
@@ -32,7 +37,7 @@ data "template_cloudinit_config" "init_config" {
   base64_encode = false
 
   part {
-    filename     = format("init_%02d.cfg", count.index + 1)
+    filename     = format("init%02d.cfg", count.index + 1)
     content_type = "text/cloud-config"
     content      = data.template_file.init_config[count.index].rendered
   }

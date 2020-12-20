@@ -3,8 +3,8 @@ ethernets:
   ens3:
     dhcp4: no
     addresses: [${ip_address}/24]
-    gateway4: 192.168.123.254
+    gateway4: ${ip_gateway}
     nameservers:
        addresses: 
-        - 192.168.123.254
+        - ${ip_nameserver}
         - 8.8.8.8
