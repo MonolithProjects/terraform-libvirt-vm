@@ -22,12 +22,12 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 |os_img_url|URL to the OS image|https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
 |vm_count|Number of VMs| 1
 |vm_hostname_prefix|VM hostname prefix|vm
-|memory|RAM in MB|512
+|memory|RAM in MB|1024
 |vcpu|Number of vCPUs|1
 |pool|Storage pool name|default
 |system_volume|System Volume size (GB)|10
 |dhcp|Use DHCP or Static IP settings|false
-|ip_address|"List of static IP addresses|[ "192.168.123.1" ]
+|ip_address|"List of static IP addresses|[ "192.168.123.101" ]
 |ip_nameserver|Static IP addresses of a nameserver|192.168.123.1
 |ip_gateway|Static IP addresses of a gateway|192.168.123.1
 |ssh_admin|Admin user with ssh access|ssh-admin

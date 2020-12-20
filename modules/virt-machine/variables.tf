@@ -27,7 +27,7 @@ variable "hostname" {
 variable "memory" {
   description = "RAM in MB"
   type = string
-  default = "512"
+  default = "1024"
 }
 
 variable "vcpu" {
@@ -59,7 +59,7 @@ variable "bridge" {
 variable "ip_address" {
   description = "List of IP addresses"
   type        = list(string)
-  default     = [ "192.168.123.1" ]
+  default     = [ "192.168.123.101" ]
 }
 
 variable "ip_nameserver" {
