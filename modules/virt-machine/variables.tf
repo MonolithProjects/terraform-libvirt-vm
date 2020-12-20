@@ -35,6 +35,11 @@ variable "vcpu" {
   default = 1
 }
 
+variable "pool" {
+  description = "Storage pool name"
+  default = "default"
+}
+
 variable "system_volume" {
   description = "System Volume size (GB)"
   default = 10
@@ -44,6 +49,11 @@ variable "dhcp" {
   description = "Use DHCP or Static IP settings"
   type        = bool
   default     = false
+}
+
+variable "bridge" {
+  description = "Bridge interface"
+  default     = "br0"
 }
 
 variable "ip_address" {

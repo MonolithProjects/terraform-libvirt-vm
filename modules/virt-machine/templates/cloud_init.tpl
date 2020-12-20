@@ -3,8 +3,14 @@
 package_upgrade: false
 
 packages:
-  - python3
   - iotop
+  - python3
+  - qemu-guest-agent
+
+runcmd:
+  - [ systemctl, daemon-reload ]
+  - [ systemctl, enable, qemu-guest-agent ]
+  - [ systemctl, start, qemu-guest-agent ]
 
 fqdn: ${hostname}
 
