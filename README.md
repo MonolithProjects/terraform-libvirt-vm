@@ -80,7 +80,7 @@ module "nodes" {
 }
 
 output "ip_addresses" {
-  value = module.k3s_nodes
+  value = module.nodes
 }
 ```
 
@@ -132,7 +132,7 @@ module "nodes" {
 }
 
 output "ip_addresses" {
-  value = module.k3s_nodes
+  value = module.nodes
 }
 ```
 
