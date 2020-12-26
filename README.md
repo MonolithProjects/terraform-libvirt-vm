@@ -5,14 +5,17 @@
 
 Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM Virtual Machine(s), configure it using Cloud Init and test the ssh connection. This module is using [dmacvicar/libvirt](https://github.com/dmacvicar/terraform-provider-libvirt) Terraform provider.
 
-## What the module provides
+## What this module provides
 
-- create one or more VMs at once
-- libvirt domain(s) with one NIC connected to the network using the **bridge interface**
-- user can set number of vCPUs, RAM, system volume size
+- creates one or more VMs
+- one NIC per domain, connected to the network using the **bridge interface**
 - setup network interface using DHCP or static
-- cloud_init VM(s) configuration
+- cloud_init VM(s) configuration (Ubuntu+Netplan complient)
 - test the ssh connection
+
+## Tested on
+
+- Ubuntu 20.04 TLS
 
 ## Parameters
 
