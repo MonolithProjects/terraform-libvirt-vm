@@ -134,8 +134,25 @@ module "nodes" {
   os_img_url  = "file:///home/myuser/ubuntu-20.04-server-cloudimg-amd64.img"
 }
 
-output "ip_addresses" {
+output "outputs" {
   value = module.nodes
+}
+```
+
+## Module output example
+
+```json
+output_data = {
+  "ip_address" = [
+    "192.168.165.151",
+    "192.168.165.152",
+    "192.168.165.152",
+  ]
+  "name" = [
+    "server01",
+    "server02",
+    "server03",
+  ]
 }
 ```
 
