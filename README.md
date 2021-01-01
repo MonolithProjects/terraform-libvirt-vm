@@ -44,7 +44,7 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 
 DHCP IP settings:
 
-```hcl
+```hcl2
 terraform {
   required_version = ">= 0.13"
     required_providers {
@@ -89,7 +89,7 @@ output "ip_addresses" {
 
 Static IP settings:
 
-```hcl
+```hcl2
 terraform {
   required_version = ">= 0.13"
     required_providers {
@@ -141,7 +141,7 @@ output "outputs" {
 
 ## Module output example
 
-```json
+```hcl2
 output_data = {
   "ip_address" = [
     "192.168.165.151",
