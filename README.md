@@ -116,6 +116,11 @@ module "nodes" {
   vcpu        = 1
   pool        = "terra_pool"
   system_volume = 20
+  share_filesystem = {
+    source = "/tmp"
+    target = "tmp"
+    readonly = false
+  }
 
   dhcp        = false
   ip_address  = [ 

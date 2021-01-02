@@ -1,4 +1,4 @@
 version: 2
 ethernets:
-  ens3:
+  ${nic}:
     dhcp4: true
