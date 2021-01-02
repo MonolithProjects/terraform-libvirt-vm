@@ -30,6 +30,12 @@ variable "memory" {
   default = "1024"
 }
 
+variable "hugepages" {
+  description = "Set Hugepages"
+  type = bool
+  default = false
+}
+
 variable "vcpu" {
   description = "Number of vCPUs"
   default = 1

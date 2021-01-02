@@ -25,6 +25,10 @@ resource "libvirt_domain" "virt-machine" {
     hostname       = format("${var.vm_hostname_prefix}%02d", count.index + 1)
   }
 
+  xml {
+    xslt = (var.hugepages == true ? file("${path.module}/xslt/hugepages.xsl") : null)
+  }
+
   console {
     type        = "pty"
     target_port = "0"
