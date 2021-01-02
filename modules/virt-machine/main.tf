@@ -45,6 +45,16 @@ resource "libvirt_domain" "virt-machine" {
     volume_id = element(libvirt_volume.volume-qcow2.*.id, count.index)
   }
 
+  dynamic "filesystem" {
+    for_each = var.share_filesystem.source != null ? [ var.share_filesystem.source] : []
+    content {
+      source     = var.share_filesystem.source
+      target     = var.share_filesystem.target
+      readonly   = var.share_filesystem.readonly
+      accessmode = "passthrough"
+    }
+  }
+
   graphics {
     type        = "spice"
     listen_type = "address"

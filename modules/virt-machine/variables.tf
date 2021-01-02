@@ -51,6 +51,19 @@ variable "system_volume" {
   default = 10
 }
 
+variable "share_filesystem" {
+  type = object({
+    source   = string
+    target   = string
+    readonly = bool
+  })
+  default = {
+    source   = null
+    target   = null
+    readonly = false
+    }
+}
+
 variable "dhcp" {
   description = "Use DHCP or Static IP settings"
   type        = bool
