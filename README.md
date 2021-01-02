@@ -32,6 +32,7 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 |system_volume|System Volume size (GB)|10
 |share_filesystem.source|Directory of the host to be shared with the VM|null
 |share_filesystem.target|Tag that is exported to the VM as a hint for where to mount the source|null
+|share_filesystem.readonly|Enables exporting filesystem as a readonly mount|false
 |dhcp|Use DHCP or Static IP settings|false
 |ip_address|"List of static IP addresses|[ "192.168.123.101" ]
 |ip_nameserver|Static IP addresses of a nameserver|192.168.123.1
