@@ -26,6 +26,7 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 |vm_count|Number of VMs| 1
 |vm_hostname_prefix|VM hostname prefix|vm
 |memory|RAM in MB|1024
+|hugepages|Use Hugepages|false
 |vcpu|Number of vCPUs|1
 |pool|Storage pool name|default
 |system_volume|System Volume size (GB)|10
@@ -65,6 +66,7 @@ module "nodes" {
   vm_hostname_prefix = "server"
   vm_count    = 3
   memory      = "2048"
+  hugepages   = false
   vcpu        = 1
   pool        = "terra_pool"
   system_volume = 20
@@ -87,7 +89,7 @@ output "ip_addresses" {
 }
 ```
 
-Static IP settings:
+Static IP settings and Hugepages:
 
 ```hcl
 terraform {
@@ -110,6 +112,7 @@ module "nodes" {
   vm_hostname_prefix = "server"
   vm_count    = 3
   memory      = "2048"
+  hugepages   = true
   vcpu        = 1
   pool        = "terra_pool"
   system_volume = 20
