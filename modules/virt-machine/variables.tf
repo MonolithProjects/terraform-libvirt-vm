@@ -1,8 +1,3 @@
-variable "libvirt_disk_path" {
-  description = "Path to libvirt Disk pool"
-  default     = "/mnt/terra"
-}
-
 variable "os_img_url" {
   description = "URL to the OS image"
   default     = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"

@@ -9,7 +9,7 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 
 - creates one or more VMs
 - one NIC per domain, connected to the network using the **bridge interface**
-- setup network interface using DHCP or static
+- setup network interface using DHCP or static configuration
 - cloud_init VM(s) configuration (Ubuntu+Netplan complient)
 - test the ssh connection
 
@@ -21,7 +21,6 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 
 | Parameter | Description | Default value
 |-----------------|-----|-----
-|libvirt_disk_path| Path to libvirt Disk pool|/mnt/terra
 |os_img_url|URL to the OS image|https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
 |vm_count|Number of VMs| 1
 |vm_hostname_prefix|VM hostname prefix|vm
@@ -159,7 +158,7 @@ output_data = {
   "ip_address" = [
     "192.168.165.151",
     "192.168.165.152",
-    "192.168.165.152",
+    "192.168.165.153",
   ]
   "name" = [
     "server01",
