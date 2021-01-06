@@ -23,6 +23,7 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 |-----------------|-----|-----
 |os_img_url|URL to the OS image|https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
 |vm_count|Number of VMs| 1
+|index_start|From where the index start| 1
 |vm_hostname_prefix|VM hostname prefix|vm
 |memory|RAM in MB|1024
 |hugepages|Use Hugepages|false

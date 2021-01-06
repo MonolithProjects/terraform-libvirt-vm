@@ -10,7 +10,7 @@ variable "vm_count" {
 
 variable "index_start" {
   description = "From where the indexig start"
-  defaut = 1
+  default = 1
 }
 
 variable "vm_hostname_prefix" {
