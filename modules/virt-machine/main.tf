@@ -11,7 +11,7 @@ terraform {
 
 resource "libvirt_domain" "virt-machine" {
   count  = var.vm_count
-  name   = format("${var.vm_hostname_prefix}%02d", count.index + 1)
+  name   = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
   memory = var.memory
   vcpu   = var.vcpu
   autostart  = true
@@ -22,7 +22,7 @@ resource "libvirt_domain" "virt-machine" {
   network_interface {
     bridge         = var.bridge
     wait_for_lease = true
-    hostname       = format("${var.vm_hostname_prefix}%02d", count.index + 1)
+    hostname       = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
   }
 
   xml {

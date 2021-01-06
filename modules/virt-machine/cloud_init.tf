@@ -18,7 +18,7 @@ data "template_file" "init_config" {
     ssh_keys = local.all_keys
     local_admin = var.local_admin
     local_admin_passwd = var.local_admin_passwd
-    hostname = format("${var.vm_hostname_prefix}%02d", count.index + 1)
+    hostname = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
     time_zone = var.time_zone
   }
 }
@@ -39,7 +39,7 @@ data "template_cloudinit_config" "init_config" {
   base64_encode = false
 
   part {
-    filename     = format("init%02d.cfg", count.index + 1)
+    filename     = format("init%02d.cfg", count.index + var.index_start)
     content_type = "text/cloud-config"
     content      = data.template_file.init_config[count.index].rendered
   }
