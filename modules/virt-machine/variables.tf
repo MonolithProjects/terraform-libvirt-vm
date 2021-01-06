@@ -51,11 +51,13 @@ variable "share_filesystem" {
     source   = string
     target   = string
     readonly = bool
+    mode     = string
   })
   default = {
     source   = null
     target   = null
     readonly = false
+    mode     = null
     }
 }
 

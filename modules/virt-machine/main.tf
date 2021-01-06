@@ -51,7 +51,7 @@ resource "libvirt_domain" "virt-machine" {
       source     = var.share_filesystem.source
       target     = var.share_filesystem.target
       readonly   = var.share_filesystem.readonly
-      accessmode = "passthrough"
+      accessmode = var.share_filesystem.mode
     }
   }
 
