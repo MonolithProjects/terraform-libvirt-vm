@@ -8,6 +8,11 @@ variable "vm_count" {
   default = 1
 }
 
+variable "index_start" {
+  description = "From where the indexig start"
+  defaut = 1
+}
+
 variable "vm_hostname_prefix" {
   description = "VM hostname prefix"
   default     = "vm"
