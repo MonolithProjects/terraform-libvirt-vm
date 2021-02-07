@@ -35,7 +35,7 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 |share_filesystem.target|Tag that is exported to the VM as a hint for where to mount the source|null
 |share_filesystem.readonly|Enables exporting filesystem as a readonly mount|false
 |share_filesystem.mode|Access mode (mapped, passtrough, squash)|null
-|bridge|Bridge interface| "br0"
+|bridge|Bridge interface| "virbr0"
 |dhcp|Use DHCP or Static IP settings|false
 |ip_address|"List of static IP addresses|[ "192.168.123.101" ]
 |ip_nameserver|Static IP addresses of a nameserver|192.168.123.1
