@@ -14,7 +14,7 @@ resource "libvirt_domain" "virt-machine" {
   name   = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
   memory = var.memory
   vcpu   = var.vcpu
-  autostart  = true
+  autostart  = var.autostart
   qemu_agent = true
   
   cloudinit = element(libvirt_cloudinit_disk.commoninit.*.id, count.index)
