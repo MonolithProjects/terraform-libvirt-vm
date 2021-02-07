@@ -3,6 +3,11 @@ variable "os_img_url" {
   default     = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
 }
 
+variable "autostart" {
+  description = "Autostart the domain"
+  default = true
+}
+
 variable "vm_count" {
   description = "Number of VMs"
   default = 1
@@ -74,7 +79,7 @@ variable "dhcp" {
 
 variable "bridge" {
   description = "Bridge interface"
-  default     = "br0"
+  default     = "virbr0"
 }
 
 variable "ip_address" {
