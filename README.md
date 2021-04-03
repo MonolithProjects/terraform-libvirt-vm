@@ -69,7 +69,7 @@ provider "libvirt" {
 module "vm" {
   source  = "MonolithProjects/vm/libvirt"
   version = "1.6.0"
-}
+  }
 
   vm_hostname_prefix = "server"
   vm_count    = 3
@@ -117,7 +117,7 @@ provider "libvirt" {
 module "vm" {
   source  = "MonolithProjects/vm/libvirt"
   version = "1.6.0"
-}
+  }
 
   vm_hostname_prefix = "server"
   vm_count    = 3
