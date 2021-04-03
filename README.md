@@ -2,6 +2,7 @@
 
 [![GitHub Actions](https://github.com/MonolithProjects/terraform-libvirt-vm/workflows/Lint/badge.svg)](https://github.com/MonolithProjects/terraform-libvirt-vm/actions)
 [![License](https://img.shields.io/github/license/MonolithProjects/terraform-libvirt-vm)](https://github.com/MonolithProjects/terraform-libvirt-vm/blob/master/LICENSE)
+[![Terraform](https://badgen.net/badge/Terraform%20Registry/yes/blue?icon=terraform)](https://registry.terraform.io/modules/MonolithProjects/vm/libvirt/latest)
 
 Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM Virtual Machine(s), configure it using Cloud Init and test the ssh connection. This module is using [dmacvicar/libvirt](https://github.com/dmacvicar/terraform-provider-libvirt) Terraform provider.
 
