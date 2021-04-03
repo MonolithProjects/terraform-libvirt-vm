@@ -66,8 +66,10 @@ provider "libvirt" {
   uri = "qemu+ssh://hero@192.168.165.100/system"
 }
 
-module "nodes" {
-  source      = "./modules/virt-machine"
+module "vm" {
+  source  = "MonolithProjects/vm/libvirt"
+  version = "1.6.0"
+  }
 
   vm_hostname_prefix = "server"
   vm_count    = 3
@@ -112,8 +114,10 @@ provider "libvirt" {
   uri = "qemu+ssh://hero@192.168.165.100/system"
 }
 
-module "nodes" {
-  source      = "./modules/virt-machine"
+module "vm" {
+  source  = "MonolithProjects/vm/libvirt"
+  version = "1.6.0"
+  }
 
   vm_hostname_prefix = "server"
   vm_count    = 3
