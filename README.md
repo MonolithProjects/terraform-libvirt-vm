@@ -23,6 +23,8 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 | Parameter | Description | Default value
 |-----------------|-----|-----
 |os_img_url|URL to the OS image|https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
+|base_pool_name|When defined it will be used in combination with `base_volume_name` to create root volume as linked clone from this pool name|null
+|base_volume_name|When defined it will be used in combination with `base_pool_name` to create root volume as linked clone from this pool/vol name. Defining this variable will disable downloading `os_img_url` and creating a base volume| null
 |autostart| Autostart the Domain| true
 |vm_count|Number of VMs| 1
 |index_start|From where the index start| 1
@@ -43,10 +45,10 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 |ip_gateway|Static IP addresses of a gateway|192.168.123.1
 |ssh_admin|Admin user with ssh access|ssh-admin
 |ssh_keys|List of public ssh keys| []
-|local_admin|Admin user without ssh access|local-admin
+|local_admin|Admin user without ssh access|""
 |local_admin_passwd|Local admin user password|password_example
 |time_zone|Time Zone|UTC
-|ssh_private_key|Private key for SSH connection test|~/.ssh/id_ed25519
+|ssh_private_key|Private key for SSH connection test|null
 
 ## Example
 

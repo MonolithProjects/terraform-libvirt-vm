@@ -3,6 +3,17 @@ variable "os_img_url" {
   default     = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
 }
 
+variable "base_volume_name" {
+  description = "Name of base OS image"
+  default     = null
+}
+
+variable "base_pool_name" {
+  description = "Name of base OS image"
+  default     = null
+}
+
+
 variable "autostart" {
   description = "Autostart the domain"
   default = true
@@ -111,7 +122,7 @@ variable "ssh_keys" {
 
 variable "local_admin" {
   description = "Admin user without ssh access"
-  default     = "local-admin"
+  default     = ""
 }
 
 variable "local_admin_passwd" {
@@ -126,5 +137,5 @@ variable "time_zone" {
 
 variable "ssh_private_key" {
   description = "Private key for SSH connection test"
-  default     = "~/.ssh/id_ed25519"
+  default     = null
 }
