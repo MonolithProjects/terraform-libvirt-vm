@@ -22,12 +22,14 @@ users:
     system: False
     ssh_authorized_keys: ${ssh_keys}
     shell: /bin/bash
+%{ if local_admin != "" }
   - name: ${local_admin}
     gecos: Local admin (no SSH)
     lock-passwd: false
     sudo: ALL=(ALL) ALL
     passwd: ${local_admin_passwd}
     shell: /bin/bash
+%{ endif }
 
 write_files:
   - path: /etc/ssh/sshd_config
