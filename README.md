@@ -72,7 +72,7 @@ provider "libvirt" {
 
 module "vm" {
   source  = "MonolithProjects/vm/libvirt"
-  version = "1.7.1"
+  version = "1.8.0"
 
   vm_hostname_prefix = "server"
   vm_count    = 3
@@ -119,7 +119,7 @@ provider "libvirt" {
 
 module "vm" {
   source  = "MonolithProjects/vm/libvirt"
-  version = "1.7.1"
+  version = "1.8.0"
 
   vm_hostname_prefix = "server"
   vm_count    = 3
@@ -174,7 +174,7 @@ resource "libvirt_volume" "data_volume" {
 
 module "vm" {
   source  = "MonolithProjects/vm/libvirt"
-  version = "1.7.1"
+  version = "1.8.0"
 
   vm_hostname_prefix = "data-server"
   base_volume_name = "debian-11-base.qcow2"
