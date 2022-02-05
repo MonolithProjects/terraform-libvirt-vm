@@ -13,6 +13,11 @@ variable "base_pool_name" {
   default     = null
 }
 
+variable "additional_disk_ids" {
+  description = "List of volume ids"
+  default = []
+}
+
 
 variable "autostart" {
   description = "Autostart the domain"
