@@ -1,22 +1,25 @@
 
 terraform {
   required_version = ">= 0.13"
-    required_providers {
-      libvirt = {
-        source  = "dmacvicar/libvirt"
-        version = ">=0.6.9"
-      }
+  required_providers {
+    libvirt = {
+      source  = "dmacvicar/libvirt"
+      version = ">=0.6.9"
     }
+  }
 }
 
 resource "libvirt_domain" "virt-machine" {
   count  = var.vm_count
   name   = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
   memory = var.memory
-  vcpu   = var.vcpu
+  cpu {
+    mode = var.cpu_mode
+  }
+  vcpu       = var.vcpu
   autostart  = var.autostart
   qemu_agent = true
-  
+
   cloudinit = element(libvirt_cloudinit_disk.commoninit.*.id, count.index)
 
   network_interface {
@@ -26,7 +29,7 @@ resource "libvirt_domain" "virt-machine" {
   }
 
   xml {
-    xslt = (var.hugepages == true ? file("${path.module}/xslt/hugepages.xsl") : null)
+    xslt = templatefile("${path.module}/xslt/template.tftpl", var.xml_override)
   }
 
   console {
@@ -46,7 +49,7 @@ resource "libvirt_domain" "virt-machine" {
   }
 
   dynamic "filesystem" {
-    for_each = var.share_filesystem.source != null ? [ var.share_filesystem.source] : []
+    for_each = var.share_filesystem.source != null ? [var.share_filesystem.source] : []
     content {
       source     = var.share_filesystem.source
       target     = var.share_filesystem.target
@@ -67,11 +70,11 @@ resource "libvirt_domain" "virt-machine" {
       "date"
     ]
     connection {
-      type                = "ssh"
-      user                = var.ssh_admin
-      host                = self.network_interface.0.addresses.0
-      private_key         = var.ssh_private_key != null ? file(var.ssh_private_key): null
-      timeout             = "2m"
+      type        = "ssh"
+      user        = var.ssh_admin
+      host        = self.network_interface.0.addresses.0
+      private_key = var.ssh_private_key != null ? file(var.ssh_private_key) : null
+      timeout     = "2m"
     }
   }
 }

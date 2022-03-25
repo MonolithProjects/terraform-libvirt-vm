@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:output omit-xml-declaration="yes" indent="yes"/>
+<xsl:template match="@* | node()">
+  <xsl:copy>
+    <xsl:apply-templates select="@* | node()"/>
+  </xsl:copy>
+</xsl:template>
+
+%{if hugepages}
+    <xsl:template match="memory">
+      <xsl:copy-of select="."/>
+      <memoryBacking>
+        <hugepages/>
+      </memoryBacking>
+    </xsl:template>
+%{ endif }
+
+    <xsl:template match="/domain/devices">
+    <xsl:copy>
+      <xsl:apply-templates select="node()|@*"/>
+%{if usb_devices != [] }
+%{ for usb_device in usb_devices ~}
+        <xsl:element name="hostdev">
+            <xsl:attribute name="type">usb</xsl:attribute>
+            <xsl:attribute name="managed">yes</xsl:attribute>
+            <xsl:attribute name="mode">subsystem</xsl:attribute>
+            <xsl:element name="source">
+              <xsl:element name="vendor">
+                <xsl:attribute name="id">${usb_device.vendor}</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="product">
+                <xsl:attribute name="id">${usb_device.product}</xsl:attribute>
+              </xsl:element>
+            </xsl:element>
+        </xsl:element>
+%{ endfor ~}
+%{ endif }
+
+%{ for usb_controller in usb_controllers ~}
+        <xsl:element name="controller">
+            <xsl:attribute name="type">usb</xsl:attribute>
+            <xsl:attribute name="model">${usb_controller.model}</xsl:attribute>
+        </xsl:element>
+%{ endfor ~}
+    </xsl:copy>
+  </xsl:template>
+</xsl:stylesheet>

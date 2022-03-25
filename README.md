@@ -18,41 +18,71 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 
 - Ubuntu 20.04 TLS
 
-## Parameters
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
 
-| Parameter | Description | Default value
-|-----------------|-----|-----
-|os_img_url|URL to the OS image|https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
-|base_pool_name|When defined it will be used in combination with `base_volume_name` to create root volume as linked clone from this pool name|null
-|base_volume_name|When defined it will be used in combination with `base_pool_name` to create root volume as linked clone from this pool/vol name. Defining this variable will disable downloading `os_img_url` and creating a base volume| null
-|autostart| Autostart the Domain| true
-|vm_count|Number of VMs| 1
-|index_start|From where the index start| 1
-|vm_hostname_prefix|VM hostname prefix|vm
-|memory|RAM in MB|1024
-|hugepages|Use Hugepages|false
-|vcpu|Number of vCPUs|1
-|pool|Storage pool name|default
-|system_volume|System Volume size (GB)|10
-|share_filesystem.source|Directory of the host to be shared with the VM|null
-|share_filesystem.target|Tag that is exported to the VM as a hint for where to mount the source|null
-|share_filesystem.readonly|Enables exporting filesystem as a readonly mount|false
-|share_filesystem.mode|Access mode (mapped, passtrough, squash)|null
-|bridge|Bridge interface| "virbr0"
-|dhcp|Use DHCP or Static IP settings|false
-|ip_address|"List of static IP addresses|[ "192.168.123.101" ]
-|ip_nameserver|Static IP addresses of a nameserver|192.168.123.1
-|ip_gateway|Static IP addresses of a gateway|192.168.123.1
-|ssh_admin|Admin user with ssh access|ssh-admin
-|ssh_keys|List of public ssh keys| []
-|local_admin|Admin user without ssh access|""
-|local_admin_passwd|Local admin user password|password_example
-|time_zone|Time Zone|UTC
-|ssh_private_key|Private key for SSH connection test|null
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
+| <a name="requirement_libvirt"></a> [libvirt](#requirement\_libvirt) | >=0.6.9 |
 
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [libvirt_cloudinit_disk.commoninit](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/cloudinit_disk) | resource |
+| [libvirt_domain.virt-machine](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/domain) | resource |
+| [libvirt_volume.base-volume-qcow2](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/volume) | resource |
+| [libvirt_volume.volume-qcow2](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/volume) | resource |
+| [template_cloudinit_config.init_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/cloudinit_config) | data source |
+| [template_file.init_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [template_file.network_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_autostart"></a> [autostart](#input\_autostart) | Autostart the domain | `bool` | `true` | no |
+| <a name="input_base_pool_name"></a> [base\_pool\_name](#input\_base\_pool\_name) | Name of base OS image | `any` | `null` | no |
+| <a name="input_base_volume_name"></a> [base\_volume\_name](#input\_base\_volume\_name) | Name of base OS image | `any` | `null` | no |
+| <a name="input_bridge"></a> [bridge](#input\_bridge) | Bridge interface | `string` | `"virbr0"` | no |
+| <a name="input_cpu_mode"></a> [cpu\_mode](#input\_cpu\_mode) | CPU mode | `string` | `"host-passthrough"` | no |
+| <a name="input_dhcp"></a> [dhcp](#input\_dhcp) | Use DHCP or Static IP settings | `bool` | `false` | no |
+| <a name="input_hostname"></a> [hostname](#input\_hostname) | VM hostname or FQDN | `string` | `"server"` | no |
+| <a name="input_index_start"></a> [index\_start](#input\_index\_start) | From where the indexig start | `number` | `1` | no |
+| <a name="input_ip_address"></a> [ip\_address](#input\_ip\_address) | List of IP addresses | `list(string)` | <pre>[<br>  "192.168.123.101"<br>]</pre> | no |
+| <a name="input_ip_gateway"></a> [ip\_gateway](#input\_ip\_gateway) | IP addresses of a gateway | `string` | `"192.168.123.1"` | no |
+| <a name="input_ip_nameserver"></a> [ip\_nameserver](#input\_ip\_nameserver) | IP addresses of a nameserver | `string` | `"192.168.123.1"` | no |
+| <a name="input_local_admin"></a> [local\_admin](#input\_local\_admin) | Admin user without ssh access | `string` | `""` | no |
+| <a name="input_local_admin_passwd"></a> [local\_admin\_passwd](#input\_local\_admin\_passwd) | Local admin user password | `string` | `"password_example"` | no |
+| <a name="input_memory"></a> [memory](#input\_memory) | RAM in MB | `string` | `"1024"` | no |
+| <a name="input_os_img_url"></a> [os\_img\_url](#input\_os\_img\_url) | URL to the OS image | `string` | `"https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"` | no |
+| <a name="input_pool"></a> [pool](#input\_pool) | Storage pool name | `string` | `"default"` | no |
+| <a name="input_share_filesystem"></a> [share\_filesystem](#input\_share\_filesystem) | n/a | <pre>object({<br>    source   = string<br>    target   = string<br>    readonly = bool<br>    mode     = string<br>  })</pre> | <pre>{<br>  "mode": null,<br>  "readonly": false,<br>  "source": null,<br>  "target": null<br>}</pre> | no |
+| <a name="input_ssh_admin"></a> [ssh\_admin](#input\_ssh\_admin) | Admin user with ssh access | `string` | `"ssh-admin"` | no |
+| <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys) | List of public ssh keys | `list(string)` | `[]` | no |
+| <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private key for SSH connection test | `any` | `null` | no |
+| <a name="input_system_volume"></a> [system\_volume](#input\_system\_volume) | System Volume size (GB) | `number` | `10` | no |
+| <a name="input_time_zone"></a> [time\_zone](#input\_time\_zone) | Time Zone | `string` | `"UTC"` | no |
+| <a name="input_vcpu"></a> [vcpu](#input\_vcpu) | Number of vCPUs | `number` | `1` | no |
+| <a name="input_vm_count"></a> [vm\_count](#input\_vm\_count) | Number of VMs | `number` | `1` | no |
+| <a name="input_vm_hostname_prefix"></a> [vm\_hostname\_prefix](#input\_vm\_hostname\_prefix) | VM hostname prefix | `string` | `"vm"` | no |
+| <a name="input_xml_override"></a> [xml\_override](#input\_xml\_override) | With these variables you can: Enable hugepages; Set USB controllers; Attach USB devices | `any` | <pre>{<br>  "hugepages": false,<br>  "usb_controllers": [<br>    {<br>      "model": "piix3-uhci"<br>    }<br>  ],<br>  "usb_devices": []<br>}</pre> | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_ip_address"></a> [ip\_address](#output\_ip\_address) | n/a |
+| <a name="output_name"></a> [name](#output\_name) | n/a |
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Example
 
-DHCP IP settings:
+Example with enable HugePages, Attached USB device, changed USB controller model... :
 
 ```hcl
 terraform {
@@ -75,22 +105,33 @@ module "vm" {
   vm_hostname_prefix = "server"
   vm_count    = 3
   memory      = "2048"
-  hugepages   = false
   vcpu        = 1
   pool        = "terra_pool"
   system_volume = 20
-
   dhcp        = true
-
   local_admin = "local-admin"
   ssh_admin   = "ci-user"
   ssh_private_key = "~/.ssh/id_ed25519"
   local_admin_passwd = "$6$rounds=4096$xxxxxxxxHASHEDxxxPASSWORD"
-  ssh_keys    = [ 
-    "ssh-ed25519 AAAAxxxxxxxxxxxxSSHxxxKEY example", 
+  ssh_keys    = [
+    "ssh-ed25519 AAAAxxxxxxxxxxxxSSHxxxKEY example",
     ]
   time_zone   = "CET"
   os_img_url  = "file:///home/myuser/ubuntu-20.04-server-cloudimg-amd64.img"
+  xml_override = {
+      hugepages = true,
+      usb_controllers = [
+        {
+          model = "qemu-xhci"
+        }
+      ],
+      usb_devices = [
+        {
+          vendor = "0x0bc2",
+          product = "0xab28"
+        }
+      ]
+    }
 }
 
 output "ip_addresses" {
@@ -98,7 +139,7 @@ output "ip_addresses" {
 }
 ```
 
-Static IP settings and Hugepages:
+Static IP settings... :
 
 ```hcl
 terraform {
@@ -122,7 +163,6 @@ module "vm" {
   vm_hostname_prefix = "server"
   vm_count    = 3
   memory      = "2048"
-  hugepages   = true
   vcpu        = 1
   pool        = "terra_pool"
   system_volume = 20
@@ -133,10 +173,10 @@ module "vm" {
   }
 
   dhcp        = false
-  ip_address  = [ 
+  ip_address  = [
                   "192.168.165.151",
                   "192.168.165.152",
-                  "192.168.165.153" 
+                  "192.168.165.153"
                 ]
   ip_gateway  = "192.168.165.254"
   ip_nameserver = "192.168.165.104"
@@ -145,8 +185,8 @@ module "vm" {
   ssh_admin   = "ci-user"
   ssh_private_key = "~/.ssh/id_ed25519"
   local_admin_passwd = "$6$rounds=4096$xxxxxxxxHASHEDxxxPASSWORD"
-  ssh_keys    = [ 
-    "ssh-ed25519 AAAAxxxxxxxxxxxxSSHxxxKEY example", 
+  ssh_keys    = [
+    "ssh-ed25519 AAAAxxxxxxxxxxxxSSHxxxKEY example",
     ]
   time_zone   = "CET"
   os_img_url  = "file:///home/myuser/ubuntu-20.04-server-cloudimg-amd64.img"

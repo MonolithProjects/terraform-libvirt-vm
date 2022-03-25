@@ -16,17 +16,17 @@ variable "base_pool_name" {
 
 variable "autostart" {
   description = "Autostart the domain"
-  default = true
+  default     = true
 }
 
 variable "vm_count" {
   description = "Number of VMs"
-  default = 1
+  default     = 1
 }
 
 variable "index_start" {
   description = "From where the indexig start"
-  default = 1
+  default     = 1
 }
 
 variable "vm_hostname_prefix" {
@@ -37,34 +37,56 @@ variable "vm_hostname_prefix" {
 variable "hostname" {
   description = "VM hostname or FQDN"
   type        = string
-  default     = "server"  
+  default     = "server"
 }
 
 variable "memory" {
   description = "RAM in MB"
-  type = string
-  default = "1024"
+  type        = string
+  default     = "1024"
 }
 
-variable "hugepages" {
-  description = "Set Hugepages"
-  type = bool
-  default = false
+variable "cpu_mode" {
+  description = "CPU mode"
+  default     = "host-passthrough"
+}
+
+variable "xml_override" {
+  description = "With these variables you can: Enable hugepages; Set USB controllers; Attach USB devices"
+  type        = any
+  default = {
+
+    hugepages = false,
+
+    usb_controllers = [
+      {
+        model = "piix3-uhci"
+      }
+    ],
+
+    usb_devices = [
+      # {
+      #   vendor = "0x0123",
+      #   product = "0xabcd"
+      # }
+    ]
+  }
+
 }
 
 variable "vcpu" {
   description = "Number of vCPUs"
-  default = 1
+  default     = 1
 }
 
 variable "pool" {
   description = "Storage pool name"
-  default = "default"
+  default     = "default"
 }
 
 variable "system_volume" {
   description = "System Volume size (GB)"
-  default = 10
+  default     = 10
 }
 
 variable "share_filesystem" {
@@ -79,7 +101,7 @@ variable "share_filesystem" {
     target   = null
     readonly = false
     mode     = null
-    }
+  }
 }
 
 variable "dhcp" {
@@ -96,7 +118,7 @@ variable "bridge" {
 variable "ip_address" {
   description = "List of IP addresses"
   type        = list(string)
-  default     = [ "192.168.123.101" ]
+  default     = ["192.168.123.101"]
 }
 
 variable "ip_nameserver" {
@@ -111,7 +133,7 @@ variable "ip_gateway" {
 
 variable "ssh_admin" {
   description = "Admin user with ssh access"
-  default = "ssh-admin"
+  default     = "ssh-admin"
 }
 
 variable "ssh_keys" {
