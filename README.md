@@ -12,6 +12,7 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 - one NIC per domain, connected to the network using the **bridge interface**
 - setup network interface using DHCP or static configuration
 - cloud_init VM(s) configuration (Ubuntu+Netplan complient)
+- optionally add multiple extra disks
 - test the ssh connection
 
 ## Tested on
@@ -80,6 +81,7 @@ No modules.
 | <a name="output_ip_address"></a> [ip\_address](#output\_ip\_address) | n/a |
 | <a name="output_name"></a> [name](#output\_name) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Example
 
 Example with enable HugePages, Attached USB device, changed USB controller model... :
@@ -100,7 +102,7 @@ provider "libvirt" {
 
 module "vm" {
   source  = "MonolithProjects/vm/libvirt"
-  version = "1.6.0"
+  version = "1.8.0"
 
   vm_hostname_prefix = "server"
   vm_count    = 3
@@ -158,7 +160,7 @@ provider "libvirt" {
 
 module "vm" {
   source  = "MonolithProjects/vm/libvirt"
-  version = "1.6.0"
+  version = "1.8.0"
 
   vm_hostname_prefix = "server"
   vm_count    = 3
@@ -197,7 +199,45 @@ output "outputs" {
 }
 ```
 
-The shared directory from the example can be mounted inside the VM with command `sudo mount -t 9p -o trans=virtio,version=9p2000.L,rw tmp /host/tmp`
+> The shared directory from the example can be mounted inside the VM with command `sudo mount -t 9p -o trans=virtio,version=9p2000.L,rw tmp /host/tmp`
+
+Create a VM with an extra disk
+
+```
+# Creates a 50GB extra-data-disk within vms pool
+resource "libvirt_volume" "data_volume" {
+  pool = "vms"
+  name  = "extra-data-disk.qcow2"
+  format = "qcow2"
+  size = 1024*1024*1024*50
+}
+
+module "vm" {
+  source  = "MonolithProjects/vm/libvirt"
+  version = "1.8.0"
+
+  vm_hostname_prefix = "data-server"
+  base_volume_name = "debian-11-base.qcow2"
+  base_pool_name = "linked-images"
+  vm_count    = 1
+  bridge =        "bridge-dmz"
+  memory      = "4096"
+  vcpu        = 4
+  pool        = "vms"
+  system_volume = 25
+  additional_disk_ids = [ libvirt_volume.data_volume.id ]
+  dhcp        = true
+  ssh_admin   = "admin"
+  ssh_keys    = [ 
+    chomp(file("~/.ssh/id_rsa.pub"))
+    ]
+  time_zone   = "America/Argentina/Buenos_Aires"
+}
+
+output "ip_addresses" {
+  value = module.vm
+}
+```
 
 ## Module output example
 
