@@ -8,9 +8,7 @@ packages:
   - qemu-guest-agent
 
 runcmd:
-  - [ systemctl, daemon-reload ]
-  - [ systemctl, enable, qemu-guest-agent ]
-  - [ systemctl, start, qemu-guest-agent ]
+${runcmd}
 
 fqdn: ${hostname}
 
@@ -73,4 +71,3 @@ growpart:
 resize_rootfs: true
 
 timezone: ${time_zone}
-
