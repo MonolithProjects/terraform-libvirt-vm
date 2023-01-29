@@ -39,9 +39,7 @@ No modules.
 | [libvirt_domain.virt-machine](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/domain) | resource |
 | [libvirt_volume.base-volume-qcow2](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/volume) | resource |
 | [libvirt_volume.volume-qcow2](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/volume) | resource |
-| [template_cloudinit_config.init_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/cloudinit_config) | data source |
-| [template_file.init_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.network_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [cloudinit_config.init_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/cloudinit_config) | data source |
 
 ## Inputs
 
