@@ -47,6 +47,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_additional_disk_ids"></a> [additional\_disk\_ids](#input\_additional\_disk\_ids) | List of volume ids | `list` | `[]` | no |
 | <a name="input_autostart"></a> [autostart](#input\_autostart) | Autostart the domain | `bool` | `true` | no |
 | <a name="input_base_pool_name"></a> [base\_pool\_name](#input\_base\_pool\_name) | Name of base OS image | `any` | `null` | no |
 | <a name="input_base_volume_name"></a> [base\_volume\_name](#input\_base\_volume\_name) | Name of base OS image | `any` | `null` | no |
@@ -63,6 +64,7 @@ No modules.
 | <a name="input_memory"></a> [memory](#input\_memory) | RAM in MB | `string` | `"1024"` | no |
 | <a name="input_os_img_url"></a> [os\_img\_url](#input\_os\_img\_url) | URL to the OS image | `string` | `"https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"` | no |
 | <a name="input_pool"></a> [pool](#input\_pool) | Storage pool name | `string` | `"default"` | no |
+| <a name="input_runcmd"></a> [runcmd](#input\_runcmd) | Extra commands to be run with cloud init | `list(string)` | <pre>[<br>  "[ systemctl, daemon-reload ]",<br>  "[ systemctl, enable, qemu-guest-agent ]",<br>  "[ systemctl, start, qemu-guest-agent ]",<br>  "[ systemctl, restart, systemd-networkd ]"<br>]</pre> | no |
 | <a name="input_share_filesystem"></a> [share\_filesystem](#input\_share\_filesystem) | n/a | <pre>object({<br>    source   = string<br>    target   = string<br>    readonly = bool<br>    mode     = string<br>  })</pre> | <pre>{<br>  "mode": null,<br>  "readonly": false,<br>  "source": null,<br>  "target": null<br>}</pre> | no |
 | <a name="input_ssh_admin"></a> [ssh\_admin](#input\_ssh\_admin) | Admin user with ssh access | `string` | `"ssh-admin"` | no |
 | <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys) | List of public ssh keys | `list(string)` | `[]` | no |
@@ -228,7 +230,7 @@ module "vm" {
   additional_disk_ids = [ libvirt_volume.data_volume.id ]
   dhcp        = true
   ssh_admin   = "admin"
-  ssh_keys    = [ 
+  ssh_keys    = [
     chomp(file("~/.ssh/id_rsa.pub"))
     ]
   time_zone   = "America/Argentina/Buenos_Aires"

@@ -20,6 +20,7 @@ data "template_file" "init_config" {
     local_admin_passwd = var.local_admin_passwd
     hostname           = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
     time_zone          = var.time_zone
+    runcmd             = local.runcmd
   }
 }
 
@@ -30,6 +31,11 @@ locals {
 "${keys}",
 %{~endfor~}
 ]
+EOT
+  runcmd   = <<EOT
+%{for cmd in var.runcmd~}
+  - ${cmd}
+%{endfor~}
 EOT
 }
 

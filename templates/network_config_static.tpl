@@ -5,6 +5,6 @@ ethernets:
     addresses: [${ip_address}/24]
     gateway4: ${ip_gateway}
     nameservers:
-       addresses: 
+       addresses:
         - ${ip_nameserver}
         - 8.8.8.8

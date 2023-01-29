@@ -15,7 +15,7 @@ variable "base_pool_name" {
 
 variable "additional_disk_ids" {
   description = "List of volume ids"
-  default = []
+  default     = []
 }
 
 
@@ -165,4 +165,15 @@ variable "time_zone" {
 variable "ssh_private_key" {
   description = "Private key for SSH connection test"
   default     = null
+}
+
+variable "runcmd" {
+  description = "Extra commands to be run with cloud init"
+  type        = list(string)
+  default = [
+    "[ systemctl, daemon-reload ]",
+    "[ systemctl, enable, qemu-guest-agent ]",
+    "[ systemctl, start, qemu-guest-agent ]",
+    "[ systemctl, restart, systemd-networkd ]"
+  ]
 }
