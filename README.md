@@ -25,8 +25,8 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
-| <a name="requirement_libvirt"></a> [libvirt](#requirement\_libvirt) | >=0.6.9 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_libvirt"></a> [libvirt](#requirement\_libvirt) | >= 0.7.0 |
 
 ## Modules
 
