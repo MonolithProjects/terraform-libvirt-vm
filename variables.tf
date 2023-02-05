@@ -1,7 +1,7 @@
 variable "os_img_url" {
   description = "URL to the OS image"
   type        = string
-  default     = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
+  default     = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 }
 
 variable "base_volume_name" {

@@ -6,7 +6,7 @@
 
 Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM Virtual Machine(s), configure it using Cloud Init and test the ssh connection. This module is using [dmacvicar/libvirt](https://github.com/dmacvicar/terraform-provider-libvirt) Terraform provider.
 
-## What this module provides
+## What it provides
 
 - creates one or more VMs
 - one NIC per domain, connected to the network using the **bridge interface**
@@ -17,7 +17,8 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 
 ## Tested on
 
-- Ubuntu 20.04 TLS
+- Ubuntu 20.04 TLS Cloud Image
+- Ubuntu 22.04 TLS Cloud Image
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -58,7 +59,7 @@ No modules.
 | <a name="input_local_admin"></a> [local\_admin](#input\_local\_admin) | Admin user without ssh access | `string` | `""` | no |
 | <a name="input_local_admin_passwd"></a> [local\_admin\_passwd](#input\_local\_admin\_passwd) | Local admin user password | `string` | `"password_example"` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | RAM in MB | `string` | `"1024"` | no |
-| <a name="input_os_img_url"></a> [os\_img\_url](#input\_os\_img\_url) | URL to the OS image | `string` | `"https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"` | no |
+| <a name="input_os_img_url"></a> [os\_img\_url](#input\_os\_img\_url) | URL to the OS image | `string` | `"https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"` | no |
 | <a name="input_pool"></a> [pool](#input\_pool) | Storage pool name | `string` | `"default"` | no |
 | <a name="input_runcmd"></a> [runcmd](#input\_runcmd) | Extra commands to be run with cloud init | `list(string)` | <pre>[<br>  "[ systemctl, daemon-reload ]",<br>  "[ systemctl, enable, qemu-guest-agent ]",<br>  "[ systemctl, start, qemu-guest-agent ]",<br>  "[ systemctl, restart, systemd-networkd ]"<br>]</pre> | no |
 | <a name="input_share_filesystem"></a> [share\_filesystem](#input\_share\_filesystem) | n/a | <pre>object({<br>    source   = string<br>    target   = string<br>    readonly = bool<br>    mode     = string<br>  })</pre> | <pre>{<br>  "mode": null,<br>  "readonly": false,<br>  "source": null,<br>  "target": null<br>}</pre> | no |
