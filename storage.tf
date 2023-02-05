@@ -19,9 +19,9 @@ resource "libvirt_volume" "volume-qcow2" {
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
-  count          = var.vm_count
-  name           = format("${var.vm_hostname_prefix}_init%02d.iso", count.index + 1)
-  user_data      = templatefile(
+  count = var.vm_count
+  name  = format("${var.vm_hostname_prefix}_init%02d.iso", count.index + 1)
+  user_data = templatefile(
     "${path.module}/templates/cloud_init.tpl",
     {
       ssh_admin          = var.ssh_admin
@@ -43,5 +43,5 @@ resource "libvirt_cloudinit_disk" "commoninit" {
       # WA: If the shared filesystem is used, Libvirt connects Unclassified device to the 3rd position of PCI bus
     }
   )
-  pool           = var.pool
+  pool = var.pool
 }
