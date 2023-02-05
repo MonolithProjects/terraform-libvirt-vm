@@ -6,7 +6,7 @@
 
 Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM Virtual Machine(s), configure it using Cloud Init and test the ssh connection. This module is using [dmacvicar/libvirt](https://github.com/dmacvicar/terraform-provider-libvirt) Terraform provider.
 
-## What this module provides
+## What it provides
 
 - creates one or more VMs
 - one NIC per domain, connected to the network using the **bridge interface**
@@ -17,15 +17,16 @@ Terraform module for KVM/Libvirt Virtual Machine. This module will create a KVM 
 
 ## Tested on
 
-- Ubuntu 20.04 TLS
+- Ubuntu 20.04 TLS Cloud Image
+- Ubuntu 22.04 TLS Cloud Image
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
-| <a name="requirement_libvirt"></a> [libvirt](#requirement\_libvirt) | >=0.6.9 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_libvirt"></a> [libvirt](#requirement\_libvirt) | >= 0.7.0 |
 
 ## Modules
 
@@ -39,20 +40,18 @@ No modules.
 | [libvirt_domain.virt-machine](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/domain) | resource |
 | [libvirt_volume.base-volume-qcow2](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/volume) | resource |
 | [libvirt_volume.volume-qcow2](https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/volume) | resource |
-| [cloudinit_config.init_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/cloudinit_config) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_disk_ids"></a> [additional\_disk\_ids](#input\_additional\_disk\_ids) | List of volume ids | `list` | `[]` | no |
+| <a name="input_additional_disk_ids"></a> [additional\_disk\_ids](#input\_additional\_disk\_ids) | List of volume ids | `list(string)` | `[]` | no |
 | <a name="input_autostart"></a> [autostart](#input\_autostart) | Autostart the domain | `bool` | `true` | no |
-| <a name="input_base_pool_name"></a> [base\_pool\_name](#input\_base\_pool\_name) | Name of base OS image | `any` | `null` | no |
-| <a name="input_base_volume_name"></a> [base\_volume\_name](#input\_base\_volume\_name) | Name of base OS image | `any` | `null` | no |
+| <a name="input_base_pool_name"></a> [base\_pool\_name](#input\_base\_pool\_name) | Name of base OS image | `string` | `null` | no |
+| <a name="input_base_volume_name"></a> [base\_volume\_name](#input\_base\_volume\_name) | Name of base OS image | `string` | `null` | no |
 | <a name="input_bridge"></a> [bridge](#input\_bridge) | Bridge interface | `string` | `"virbr0"` | no |
 | <a name="input_cpu_mode"></a> [cpu\_mode](#input\_cpu\_mode) | CPU mode | `string` | `"host-passthrough"` | no |
 | <a name="input_dhcp"></a> [dhcp](#input\_dhcp) | Use DHCP or Static IP settings | `bool` | `false` | no |
-| <a name="input_hostname"></a> [hostname](#input\_hostname) | VM hostname or FQDN | `string` | `"server"` | no |
 | <a name="input_index_start"></a> [index\_start](#input\_index\_start) | From where the indexig start | `number` | `1` | no |
 | <a name="input_ip_address"></a> [ip\_address](#input\_ip\_address) | List of IP addresses | `list(string)` | <pre>[<br>  "192.168.123.101"<br>]</pre> | no |
 | <a name="input_ip_gateway"></a> [ip\_gateway](#input\_ip\_gateway) | IP addresses of a gateway | `string` | `"192.168.123.1"` | no |
@@ -60,19 +59,19 @@ No modules.
 | <a name="input_local_admin"></a> [local\_admin](#input\_local\_admin) | Admin user without ssh access | `string` | `""` | no |
 | <a name="input_local_admin_passwd"></a> [local\_admin\_passwd](#input\_local\_admin\_passwd) | Local admin user password | `string` | `"password_example"` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | RAM in MB | `string` | `"1024"` | no |
-| <a name="input_os_img_url"></a> [os\_img\_url](#input\_os\_img\_url) | URL to the OS image | `string` | `"https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"` | no |
+| <a name="input_os_img_url"></a> [os\_img\_url](#input\_os\_img\_url) | URL to the OS image | `string` | `"https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"` | no |
 | <a name="input_pool"></a> [pool](#input\_pool) | Storage pool name | `string` | `"default"` | no |
 | <a name="input_runcmd"></a> [runcmd](#input\_runcmd) | Extra commands to be run with cloud init | `list(string)` | <pre>[<br>  "[ systemctl, daemon-reload ]",<br>  "[ systemctl, enable, qemu-guest-agent ]",<br>  "[ systemctl, start, qemu-guest-agent ]",<br>  "[ systemctl, restart, systemd-networkd ]"<br>]</pre> | no |
 | <a name="input_share_filesystem"></a> [share\_filesystem](#input\_share\_filesystem) | n/a | <pre>object({<br>    source   = string<br>    target   = string<br>    readonly = bool<br>    mode     = string<br>  })</pre> | <pre>{<br>  "mode": null,<br>  "readonly": false,<br>  "source": null,<br>  "target": null<br>}</pre> | no |
 | <a name="input_ssh_admin"></a> [ssh\_admin](#input\_ssh\_admin) | Admin user with ssh access | `string` | `"ssh-admin"` | no |
 | <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys) | List of public ssh keys | `list(string)` | `[]` | no |
-| <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private key for SSH connection test | `any` | `null` | no |
+| <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private key for SSH connection test | `string` | `null` | no |
 | <a name="input_system_volume"></a> [system\_volume](#input\_system\_volume) | System Volume size (GB) | `number` | `10` | no |
 | <a name="input_time_zone"></a> [time\_zone](#input\_time\_zone) | Time Zone | `string` | `"UTC"` | no |
 | <a name="input_vcpu"></a> [vcpu](#input\_vcpu) | Number of vCPUs | `number` | `1` | no |
 | <a name="input_vm_count"></a> [vm\_count](#input\_vm\_count) | Number of VMs | `number` | `1` | no |
 | <a name="input_vm_hostname_prefix"></a> [vm\_hostname\_prefix](#input\_vm\_hostname\_prefix) | VM hostname prefix | `string` | `"vm"` | no |
-| <a name="input_xml_override"></a> [xml\_override](#input\_xml\_override) | With these variables you can: Enable hugepages; Set USB controllers; Attach USB devices | `any` | <pre>{<br>  "hugepages": false,<br>  "usb_controllers": [<br>    {<br>      "model": "piix3-uhci"<br>    }<br>  ],<br>  "usb_devices": []<br>}</pre> | no |
+| <a name="input_xml_override"></a> [xml\_override](#input\_xml\_override) | With these variables you can: Enable hugepages; Set USB controllers; Attach USB devices | <pre>object({<br>    hugepages = bool<br>    usb_controllers = list(object({<br>      model = string<br>    }))<br>    usb_devices = list(object({<br>      vendor  = string<br>      product = string<br>    }))<br>  })</pre> | <pre>{<br>  "hugepages": false,<br>  "usb_controllers": [<br>    {<br>      "model": "piix3-uhci"<br>    }<br>  ],<br>  "usb_devices": []<br>}</pre> | no |
 
 ## Outputs
 

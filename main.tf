@@ -1,9 +1,9 @@
 terraform {
-  required_version = ">= 0.13"
+  required_version = ">= 1.0"
   required_providers {
     libvirt = {
       source  = "dmacvicar/libvirt"
-      version = ">=0.6.9"
+      version = ">= 0.7.0"
     }
   }
 }
@@ -19,7 +19,7 @@ resource "libvirt_domain" "virt-machine" {
   autostart  = var.autostart
   qemu_agent = true
 
-  cloudinit = element(libvirt_cloudinit_disk.commoninit.*.id, count.index)
+  cloudinit = element(libvirt_cloudinit_disk.commoninit[*].id, count.index)
 
   network_interface {
     bridge         = var.bridge
@@ -44,7 +44,7 @@ resource "libvirt_domain" "virt-machine" {
   }
 
   disk {
-    volume_id = element(libvirt_volume.volume-qcow2.*.id, count.index)
+    volume_id = element(libvirt_volume.volume-qcow2[*].id, count.index)
   }
 
   dynamic "disk" {
@@ -78,7 +78,7 @@ resource "libvirt_domain" "virt-machine" {
     connection {
       type        = "ssh"
       user        = var.ssh_admin
-      host        = self.network_interface.0.addresses.0
+      host        = self.network_interface[0].addresses[0]
       private_key = var.ssh_private_key != null ? file(var.ssh_private_key) : null
       timeout     = "2m"
     }
