@@ -19,9 +19,29 @@ resource "libvirt_volume" "volume-qcow2" {
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
-  count          = var.vm_count
-  name           = format("${var.vm_hostname_prefix}_init%02d.iso", count.index + 1)
-  user_data      = data.template_cloudinit_config.init_config[count.index].rendered
-  network_config = data.template_file.network_config[count.index].rendered
-  pool           = var.pool
+  count = var.vm_count
+  name  = format("${var.vm_hostname_prefix}_init%02d.iso", count.index + 1)
+  user_data = templatefile(
+    "${path.module}/templates/cloud_init.tpl",
+    {
+      ssh_admin          = var.ssh_admin
+      ssh_keys           = local.all_keys
+      local_admin        = var.local_admin
+      local_admin_passwd = var.local_admin_passwd
+      hostname           = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
+      time_zone          = var.time_zone
+      runcmd             = local.runcmd
+    }
+  )
+  network_config = templatefile(
+    "${path.module}/templates/network_config_${var.dhcp == true ? "dhcp" : "static"}.tpl",
+    {
+      ip_address    = element(var.ip_address, count.index)
+      ip_gateway    = var.ip_gateway
+      ip_nameserver = var.ip_nameserver
+      nic           = (var.share_filesystem.source == null ? "ens3" : "ens4")
+      # WA: If the shared filesystem is used, Libvirt connects Unclassified device to the 3rd position of PCI bus
+    }
+  )
+  pool = var.pool
 }
