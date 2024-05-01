@@ -200,3 +200,14 @@ variable "runcmd" {
     "[ systemctl, restart, systemd-networkd ]"
   ]
 }
+
+variable "graphics" {
+  description = "Graphics type"
+  type        = string
+  default     = "spice"
+
+  validation {
+    condition     = contains(["spice", "vnc"], var.graphics)
+    error_message = "Graphics type not supported. Only 'spice' or 'vnc' are valid options."
+  }
+}

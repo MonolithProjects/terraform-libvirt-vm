@@ -65,7 +65,7 @@ resource "libvirt_domain" "virt-machine" {
   }
 
   graphics {
-    type        = "spice"
+    type        = var.graphics
     listen_type = "address"
     autoport    = true
   }

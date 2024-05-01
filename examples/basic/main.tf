@@ -11,6 +11,7 @@ module "test_nodes" {
   memory             = "512"
   vcpu               = 1
   system_volume      = 20
+  graphics           = "vnc"
   ssh_admin          = "admin"
   ssh_private_key    = "~/.ssh/your_key_id_ed25519"
   ssh_keys = [

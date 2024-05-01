@@ -52,6 +52,7 @@ No modules.
 | <a name="input_bridge"></a> [bridge](#input\_bridge) | Bridge interface | `string` | `"virbr0"` | no |
 | <a name="input_cpu_mode"></a> [cpu\_mode](#input\_cpu\_mode) | CPU mode | `string` | `"host-passthrough"` | no |
 | <a name="input_dhcp"></a> [dhcp](#input\_dhcp) | Use DHCP or Static IP settings | `bool` | `false` | no |
+| <a name="input_graphics"></a> [graphics](#graphics) | Graphics type (can be '`spice`' or '`vnc`') | `string` | `spice` | no |
 | <a name="input_index_start"></a> [index\_start](#input\_index\_start) | From where the indexig start | `number` | `1` | no |
 | <a name="input_ip_address"></a> [ip\_address](#input\_ip\_address) | List of IP addresses | `list(string)` | <pre>[<br>  "192.168.123.101"<br>]</pre> | no |
 | <a name="input_ip_gateway"></a> [ip\_gateway](#input\_ip\_gateway) | IP addresses of a gateway | `string` | `"192.168.123.1"` | no |
