@@ -145,6 +145,28 @@ module "vm" {
           product = "0xab28"
         }
       ]
+      pci_devices_passthrough = [
+        {
+          src_domain = "0x0000",
+          src_bus    = "0xc1",
+          src_slot   = "0x00",
+          src_func   = "0x0",
+          dst_domain = "0x0000",
+          dst_bus    = "0x00",
+          dst_slot   = "0x08"
+          dst_func   = "0x0"
+        },
+        {
+          src_domain = "0x0000",
+          src_bus    = "0xc1",
+          src_slot   = "0x00",
+          src_func   = "0x1",
+          dst_domain = "0x0000",
+          dst_bus    = "0x00",
+          dst_slot   = "0x09"
+          dst_func   = "0x0"
+        }
+      ]      
     }
 }
 
