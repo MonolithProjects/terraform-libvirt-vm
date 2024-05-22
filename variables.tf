@@ -70,6 +70,16 @@ variable "xml_override" {
       vendor  = string
       product = string
     }))
+    pci_devices_passthrough = list(object({
+      src_domain = string
+      src_bus    = string
+      src_slot   = string
+      src_func   = string
+      dst_domain = string
+      dst_bus    = string
+      dst_slot   = string
+      dst_func   = string
+    }))
   })
   default = {
 
@@ -86,6 +96,18 @@ variable "xml_override" {
       #   vendor = "0x0123",
       #   product = "0xabcd"
       # }
+    ],
+    pci_devices_passthrough = [
+      #{
+      #  src_domain = "0x0000",
+      #  src_bus = "0xc1",
+      #  src_slot = "0x00",
+      #  src_func = "0x0",
+      #  dst_domain = "0x0000",
+      #  dst_bus = "0x00",
+      #  dst_slot = "0x08"
+      #  dst_func = "0x0"
+      #}
     ]
   }
 
@@ -185,7 +207,7 @@ variable "time_zone" {
 }
 
 variable "ssh_private_key" {
-  description = "Private key for SSH connection test"
+  description = "Private key for SSH connection test (either path to file or key content)"
   type        = string
   default     = null
 }
@@ -210,4 +232,22 @@ variable "graphics" {
     condition     = contains(["spice", "vnc"], var.graphics)
     error_message = "Graphics type not supported. Only 'spice' or 'vnc' are valid options."
   }
+}
+
+variable "bastion_host" {
+  description = "Bastion host"
+  type        = string
+  default     = null
+}
+
+variable "bastion_user" {
+  description = "Bastion ssh user"
+  type        = string
+  default     = null
+}
+
+variable "bastion_ssh_private_key" {
+  description = "Bastion private key for SSH connection test (either path to file or key content)"
+  type        = string
+  default     = null
 }

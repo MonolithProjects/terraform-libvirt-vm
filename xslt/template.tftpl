@@ -44,6 +44,29 @@
             <xsl:attribute name="model">${usb_controller.model}</xsl:attribute>
         </xsl:element>
 %{ endfor ~}
+%{if pci_devices_passthrough != [] ~}
+%{ for pci_devices in pci_devices_passthrough ~}
+        <xsl:element name="hostdev">
+            <xsl:attribute name="type">pci</xsl:attribute>
+            <xsl:attribute name="managed">yes</xsl:attribute>
+            <xsl:element name="source">
+              <xsl:element name="address">
+                <xsl:attribute name="domain">${pci_devices.src_domain}</xsl:attribute>
+                <xsl:attribute name="bus">${pci_devices.src_bus}</xsl:attribute>
+                <xsl:attribute name="slot">${pci_devices.src_slot}</xsl:attribute>
+                <xsl:attribute name="function">${pci_devices.src_func}</xsl:attribute>
+              </xsl:element>
+            </xsl:element>
+            <xsl:element name="address">
+              <xsl:attribute name="type">pci</xsl:attribute>
+              <xsl:attribute name="domain">${pci_devices.dst_domain}</xsl:attribute>
+              <xsl:attribute name="bus">${pci_devices.dst_bus}</xsl:attribute>
+              <xsl:attribute name="slot">${pci_devices.dst_slot}</xsl:attribute>
+              <xsl:attribute name="function">${pci_devices.dst_func}</xsl:attribute>
+            </xsl:element>
+        </xsl:element>
+%{ endfor ~}
+%{ endif ~}
     </xsl:copy>
   </xsl:template>
 </xsl:stylesheet>
