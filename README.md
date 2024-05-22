@@ -100,7 +100,7 @@ terraform {
     }
 }
 
-resource "tls_private_key" "ecdsa-p384-kvm" {
+resource "tls_private_key" "ecdsa-p384-bastion" {
   algorithm   = "ECDSA"
   ecdsa_curve = "P384"
 }
@@ -129,7 +129,7 @@ module "vm" {
     ]
   bastion_host = "10.0.0.1"
   bastion_user = "admin"
-  bastion_ssh_private_key = tls_private_key.ecdsa-p384-kvm.private_key_pem
+  bastion_ssh_private_key = tls_private_key.ecdsa-p384-bastion.private_key_pem
   time_zone   = "CET"
   os_img_url  = "file:///home/myuser/ubuntu-20.04-server-cloudimg-amd64.img"
   xml_override = {
