@@ -76,11 +76,14 @@ resource "libvirt_domain" "virt-machine" {
       "date"
     ]
     connection {
-      type        = "ssh"
-      user        = var.ssh_admin
-      host        = self.network_interface[0].addresses[0]
-      private_key = var.ssh_private_key != null ? file(var.ssh_private_key) : null
-      timeout     = "2m"
+      type                = "ssh"
+      user                = var.ssh_admin
+      host                = self.network_interface[0].addresses[0]
+      private_key         = try(file(var.ssh_private_key), var.ssh_private_key, null)
+      timeout             = "2m"
+      bastion_host        = var.bastion_host
+      bastion_user        = var.bastion_user
+      bastion_private_key = try(file(var.bastion_ssh_private_key), var.bastion_ssh_private_key, null)
     }
   }
 }
