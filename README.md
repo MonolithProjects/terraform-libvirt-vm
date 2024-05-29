@@ -52,7 +52,7 @@ No modules.
 | <a name="input_bridge"></a> [bridge](#input\_bridge) | Bridge interface | `string` | `"virbr0"` | no |
 | <a name="input_cpu_mode"></a> [cpu\_mode](#input\_cpu\_mode) | CPU mode | `string` | `"host-passthrough"` | no |
 | <a name="input_dhcp"></a> [dhcp](#input\_dhcp) | Use DHCP or Static IP settings | `bool` | `false` | no |
-| <a name="input_graphics"></a> [graphics](#graphics) | Graphics type (can be '`spice`' or '`vnc`') | `string` | `spice` | no |
+| <a name="input_graphics"></a> [graphics](#input\_graphics) | Graphics type (can be '`spice`' or '`vnc`') | `string` | `spice` | no |
 | <a name="input_index_start"></a> [index\_start](#input\_index\_start) | From where the indexig start | `number` | `1` | no |
 | <a name="input_ip_address"></a> [ip\_address](#input\_ip\_address) | List of IP addresses | `list(string)` | <pre>[<br>  "192.168.123.101"<br>]</pre> | no |
 | <a name="input_ip_gateway"></a> [ip\_gateway](#input\_ip\_gateway) | IP addresses of a gateway | `string` | `"192.168.123.1"` | no |
@@ -66,13 +66,17 @@ No modules.
 | <a name="input_share_filesystem"></a> [share\_filesystem](#input\_share\_filesystem) | n/a | <pre>object({<br>    source   = string<br>    target   = string<br>    readonly = bool<br>    mode     = string<br>  })</pre> | <pre>{<br>  "mode": null,<br>  "readonly": false,<br>  "source": null,<br>  "target": null<br>}</pre> | no |
 | <a name="input_ssh_admin"></a> [ssh\_admin](#input\_ssh\_admin) | Admin user with ssh access | `string` | `"ssh-admin"` | no |
 | <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys) | List of public ssh keys | `list(string)` | `[]` | no |
-| <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private key for SSH connection test | `string` | `null` | no |
+| <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private key for SSH connection test (either path to file or key content) | `string` | `null` | no |
 | <a name="input_system_volume"></a> [system\_volume](#input\_system\_volume) | System Volume size (GB) | `number` | `10` | no |
 | <a name="input_time_zone"></a> [time\_zone](#input\_time\_zone) | Time Zone | `string` | `"UTC"` | no |
 | <a name="input_vcpu"></a> [vcpu](#input\_vcpu) | Number of vCPUs | `number` | `1` | no |
 | <a name="input_vm_count"></a> [vm\_count](#input\_vm\_count) | Number of VMs | `number` | `1` | no |
 | <a name="input_vm_hostname_prefix"></a> [vm\_hostname\_prefix](#input\_vm\_hostname\_prefix) | VM hostname prefix | `string` | `"vm"` | no |
-| <a name="input_xml_override"></a> [xml\_override](#input\_xml\_override) | With these variables you can: Enable hugepages; Set USB controllers; Attach USB devices | <pre>object({<br>    hugepages = bool<br>    usb_controllers = list(object({<br>      model = string<br>    }))<br>    usb_devices = list(object({<br>      vendor  = string<br>      product = string<br>    }))<br>  })</pre> | <pre>{<br>  "hugepages": false,<br>  "usb_controllers": [<br>    {<br>      "model": "piix3-uhci"<br>    }<br>  ],<br>  "usb_devices": []<br>}</pre> | no |
+| <a name="input_xml_override"></a> [xml\_override](#input\_xml\_override) | With these variables you can: Enable hugepages; Set USB controllers; Attach USB devices | <pre>object({<br>    hugepages = bool<br>    usb_controllers = list(object({<br>      model = string<br>    }))<br>    usb_devices = list(object({<br>      vendor  = string<br>      product = string<br>    }))<br>    pci_devices_passthrough = list(object({<br>      src_domain = string<br>      src_bus    = string<br>      src_slot   = string<br>      src_func   = string<br>      dst_domain = string<br>      dst_bus    = string<br>      dst_slot   = string<br>      dst_func   = string<br>    }))<br>  })</pre> | <pre>{<br>  "hugepages": false,<br>  "usb_controllers": [<br>    {<br>      "model": "piix3-uhci"<br>    }<br>  ],<br>  "usb_devices": []<br>  "pci_devices_passthrough": []<br>}</pre> | no |
+| <a name="input_bastion_host"></a> [bastion\_host](#input\_bastion\_host) | ssh bastion host | `string` | `null` | no |
+| <a name="input_bastion_user"></a> [bastion\_user](#input\_bastion\_user) | ssh user on bastion host | `string` | `null` | no |
+| <a name="input_bastion_ssh_private_key"></a> [bastion\_ssh\_private\_key](#input\_bastion\_ssh\_private\_key) | ssh private key for bastion host (either path to file or key content) | `string` | `null` | no |
+
 
 ## Outputs
 
@@ -94,6 +98,11 @@ terraform {
         source  = "dmacvicar/libvirt"
       }
     }
+}
+
+resource "tls_private_key" "ecdsa-p384-bastion" {
+  algorithm   = "ECDSA"
+  ecdsa_curve = "P384"
 }
 
 provider "libvirt" {
@@ -118,6 +127,9 @@ module "vm" {
   ssh_keys    = [
     "ssh-ed25519 AAAAxxxxxxxxxxxxSSHxxxKEY example",
     ]
+  bastion_host = "10.0.0.1"
+  bastion_user = "admin"
+  bastion_ssh_private_key = tls_private_key.ecdsa-p384-bastion.private_key_pem
   time_zone   = "CET"
   os_img_url  = "file:///home/myuser/ubuntu-20.04-server-cloudimg-amd64.img"
   xml_override = {
@@ -133,6 +145,28 @@ module "vm" {
           product = "0xab28"
         }
       ]
+      pci_devices_passthrough = [
+        {
+          src_domain = "0x0000",
+          src_bus    = "0xc1",
+          src_slot   = "0x00",
+          src_func   = "0x0",
+          dst_domain = "0x0000",
+          dst_bus    = "0x00",
+          dst_slot   = "0x08"
+          dst_func   = "0x0"
+        },
+        {
+          src_domain = "0x0000",
+          src_bus    = "0xc1",
+          src_slot   = "0x00",
+          src_func   = "0x1",
+          dst_domain = "0x0000",
+          dst_bus    = "0x00",
+          dst_slot   = "0x09"
+          dst_func   = "0x0"
+        }
+      ]      
     }
 }
 
